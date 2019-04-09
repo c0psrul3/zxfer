@@ -184,6 +184,10 @@ userrefs"
 fbsd_readonly_properties="aclmode,aclinherit,devices,nbmand,shareiscsi,vscan,\
 xattr,dnodesize"
 
+# Properties not supported on Linux
+linux_readonly_properties="aclmode,aclinherit,devices,nbmand,shareiscsi,vscan,\
+xattr,dnodesize"
+
 # Properties not supported on Solaris Express 11
 solexp_readonly_properties="jailed,aclmode,shareiscsi"
 
@@ -1438,6 +1442,11 @@ $override_value=$override_source,"
   # Remove several properties not supported on Solaris Express.
   if [ "$dest_os" = "SunOS" -a "$source_os" = "FreeBSD" ]; then
     readonly_properties="$readonly_properties,$solexp_readonly_properties"
+  fi
+
+  # Remove several properties not supported on FreeBSD.
+  if [ "$dest_os" = "Linux" ]; then
+    readonly_properties="$readonly_properties,$linux_readonly_properties"
   fi
 
   # Remove the readonly properties and values.
